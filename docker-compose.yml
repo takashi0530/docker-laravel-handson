@@ -7,3 +7,20 @@ services:
     # volumes: ではホスト側のディレクトリや名前付きボリュームをコンテナ側へマウントしたい時に指定します。今回はホスト側の ./backend ディレクトリをappサービスのコンテナ内 /work へマウントしてます。
     volumes:
       - ./backend:/work
+
+  web:
+    # コンテナを起動するイメージを選択
+    # 今回は公式のnginxイメージをそのまま利用しています。(Dockerfileは不要)
+    image: nginx:1.18-alpine
+
+    # nginxへ外(ホスト側)からコンテナ内へアクセスさせるため公開用のポートを設定します。
+    # ホスト側:コンテナ側 と設定します。
+    ports:
+      - 10080:80
+
+    # ホスト側にあるディレクトリ、ファイルをコンテナ内へマウントさせています。
+    volumes:
+      - ./backend:/work
+      - ./infra/nginx/default.conf:/etc/nginx/conf.d/default.conf
+
+    working_dir: /work
