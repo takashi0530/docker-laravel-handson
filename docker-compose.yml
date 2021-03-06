@@ -1,0 +1,9 @@
+version: "3.8"
+services:
+  app:
+    # build: で指定しているのはビルドコンテキストを指定します。ビルドコンテキストとは、docker buildを実行する際の現在の作業ディレクトリのことをビルドコンテキスト(build context)と呼びます。
+    # Dockerfile が置かれている ./infra/php ディレクトリをビルドコンテキストとして指定します。Dockerビルドの際は Dockerfile のファイルを探すので、ファイル名の指定は不要です。
+    build: ./infra/php
+    # volumes: ではホスト側のディレクトリや名前付きボリュームをコンテナ側へマウントしたい時に指定します。今回はホスト側の ./backend ディレクトリをappサービスのコンテナ内 /work へマウントしてます。
+    volumes:
+      - ./backend:/work
